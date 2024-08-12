@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +40,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 fun SimpleCameraScreen() {
 
     val context = LocalContext.current
-    var imageUri by remember { mutableStateOf(value = Uri.EMPTY) }
+    var imageUri by rememberSaveable { mutableStateOf(value = Uri.EMPTY) }
     var capturedUri by remember { mutableStateOf(value = Uri.EMPTY) }
 
     val imageCaptureLauncher = rememberLauncherForActivityResult(
@@ -47,7 +48,7 @@ fun SimpleCameraScreen() {
         onResult = { success ->
             if (success) {
                 capturedUri = imageUri
-                Toast.makeText(context, "Photo has been successfully taken!", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Retrieved URI is $capturedUri!", Toast.LENGTH_LONG).show()
                 Log.d("SimpleCameraScreen", "Retrieved URI is $capturedUri")
             }
         }
